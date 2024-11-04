@@ -1,0 +1,36 @@
+.courses-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.tech-era-container {
+  display: flex;
+  justify-content: center;
+  
+  min-height: 100vh;
+}
+.list-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.paragraph {
+  font-size: 24px;
+  font-family: 'Roboto';
+  color: #1e293b;
+}
+
+.error {
+  font-size: 32px;
+  font-family: 'Roboto';
+  color: #1e293b;
+}
+
+.button {
+  padding: 10px;
+  color: #ffffff;
+  background-color: #1e293b;
+}

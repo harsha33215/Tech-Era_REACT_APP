@@ -1,0 +1,13 @@
+.header-container {
+  height: 15vh;
+  background-color: #f1f5f9;
+  width: 100%;
+}
+
+.logo {
+  height: 60px;
+  width: 150px;
+  margin-top: 40px;
+  padding-left: 10px;
+  margin-left: 40px;
+}

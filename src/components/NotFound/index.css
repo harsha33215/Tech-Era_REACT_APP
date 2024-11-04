@@ -1,0 +1,14 @@
+.notfound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+}
+
+.para{
+    font-size: large;
+    font-family: "Roboto";
+    font-weight: 700;
+    color:#4656a1 ;
+}
