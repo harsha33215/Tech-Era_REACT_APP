@@ -1,16 +1,33 @@
 import {Component} from 'react'
-
 import Loader from 'react-loader-spinner'
-
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-
 import './index.css'
 
 class CourseItemDetails extends Component {
-  state = {courseData: {}, isLoading: true}
+  state = {courseData: {}, isLoading: true, isError: false}
 
   componentDidMount() {
     this.getCourseItemData()
+  }
+
+  getCourseItemData = async () => {
+    this.setState({isLoading: true, isError: false})
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
+    const response = await fetch(`https://apis.ccbp.in/te/courses/${id}`)
+    if (response.ok) {
+      const data = await response.json()
+      const updatedData = {
+        id: data.course_details.id,
+        name: data.course_details.name,
+        imageUrl: data.course_details.image_url,
+        description: data.course_details.description,
+      }
+      this.setState({courseData: updatedData, isLoading: false})
+    } else {
+      this.setState({isError: true, isLoading: false})
+    }
   }
 
   renderFailureView = () => (
@@ -22,36 +39,9 @@ class CourseItemDetails extends Component {
       />
       <h1>Oops! Something Went Wrong</h1>
       <p>We cannot seem to find the page you are looking for</p>
-
-      <button type="button" className="button">
+      <button type="button" onClick={this.getCourseItemData}>
         Retry
       </button>
-    </div>
-  )
-
-  getCourseItemData = async () => {
-    console.log(this.props)
-    const {match} = this.props
-    const {params} = match
-    const {id} = params
-    const response = await fetch(`https://apis.ccbp.in/te/courses/${id}`)
-    if (response.ok === true) {
-      const data = await response.json()
-      const updatedData = {
-        id: data.course_details.id,
-        name: data.course_details.name,
-        imageUrl: data.course_details.image_url,
-        description: data.course_details.description,
-      }
-      this.setState({courseData: updatedData, isLoading: false})
-    } else {
-      this.renderFailureView()
-    }
-  }
-
-  renderLoadingView = () => (
-    <div data-testid="loader">
-      <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
     </div>
   )
 
@@ -70,11 +60,17 @@ class CourseItemDetails extends Component {
   }
 
   render() {
-    const {isLoading} = this.state
+    const {isLoading, isError} = this.state
 
     return (
       <div>
-        {isLoading ? this.renderLoadingView() : this.renderCourseItemDetails()}
+        {isLoading && (
+          <div data-testid="loader">
+            <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
+          </div>
+        )}
+        {!isLoading && isError && this.renderFailureView()}
+        {!isLoading && !isError && this.renderCourseItemDetails()}
       </div>
     )
   }
